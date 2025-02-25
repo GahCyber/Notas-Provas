@@ -16,66 +16,68 @@ const data = {
     },
     {
       label: 'Ana Beatriz',
-      data: [10, ],
+      data: [10],
       borderColor: 'rgb(54, 162, 235)',
       tension: 0.1,
     },
     {
       label: 'Mariana de Moura',
-      data: [8.5, ],
+      data: [8.5],
       borderColor: 'rgb(75, 192, 192)',
       tension: 0.1,
     },
     {
       label: 'Pedro Brito',
-      data: [0, ],
+      data: [0],
       borderColor: 'rgb(153, 102, 255)',
       tension: 0.1,
     },
     {
       label: 'Maria Nunes',
-      data: [0,],
+      data: [0],
       borderColor: 'rgb(255, 159, 64)',
       tension: 0.1,
     },
     {
       label: 'Gabriel Gedolin',
-      data: [8,],
+      data: [8],
       borderColor: 'rgb(255, 0, 0)',
       tension: 0.1,
     },
   ],
 };
-
-const Filosofia = () => {
+const prof = "Taís Rocha";
+const Biologia = () => {
   const students = [
-    { name: 'Tais Rocha', teachers: ['Taís Rocha',] },
-    { name: 'Ana Beatriz', teachers: ['Taís Rocha',] },
-    { name: 'Mariana de Moura', teachers: ['Taís Rocha',] },
-    { name: 'Pedro Brito', teachers: ['Taís Rocha',] },
-    { name: 'Maria Nunes', teachers: ['Taís Rocha', ] },
-    { name: 'Gabriel Gedolin', teachers: ['Taís Rocha',] },
+    { name: 'Taís Rocha', teachers: [prof], id: "1" },
+    { name: 'Ana Beatriz', teachers: [prof], id: "2" },
+    { name: 'Mariana de Moura', teachers: [prof], id: "3" },
+    { name: 'Pedro Brito', teachers: [prof], id: "4" },
+    { name: 'Maria Nunes', teachers: [prof], id: "5" },
+    { name: 'Gabriel Gedolin', teachers: [prof], id: "6" },
   ];
 
-  // Função que atribui nota com base no nome do professor e aluno
-  const getNota = (teachers, studentName) => {
-    if (teachers.includes(studentName)) {
-      return 10; // Se o professor for o aluno, atribui 10
+  const getNotas = (studentName) => {
+    if (studentName === prof) {
+      return [10, 10, 10];
     }
-    return '-'; // Se o professor não for o aluno, retorna 0
+    const studentIndex = students.findIndex((student) => student.name === studentName);
+    if (studentIndex !== -1 && studentIndex < data.datasets.length) {
+      return data.datasets[studentIndex].data;
+    }
+    return [0, 0, 0];
   };
 
   return (
     <div className="container mt-5">
       <header className="d-flex justify-content-center mb-4">
-      <Link href="/" passHref>
-        <button className="btn btn-outline-primary">Voltar para o Boletim</button>
-      </Link>
-    </header>
-
+        <Link href="/" passHref>
+          <button className="btn btn-outline-primary">Voltar para o Boletim</button>
+        </Link>
+      </header>
 
       <section className="content">
-        <h2 className="text-center mb-4">Tabela de Notas de Filosofia</h2>
+        <h2 className="text-center mb-4">Tabela de Notas de Biologia</h2>
 
         <div className="table-responsive">
           <table className="table table-striped table-bordered table-hover">
@@ -91,27 +93,23 @@ const Filosofia = () => {
             </thead>
             <tbody>
               {students.map((student) => {
-                return student.teachers.map((teacher, index) => {
-                  const nota = getNota(student.teachers, student.name); // Verifica se o professor é o aluno
-                  return (
-                    <tr key={`${student.name}-${teacher}`}>
-                      {index === 0 && (
-                        <td className='text-center align-middle' rowSpan={student.teachers.length}>{student.name}</td>
-                      )}
-                      <td className='text-center align-middle'>{teacher}</td>
-                      <td>{nota}</td> {/* Nota 1 */}
-                      <td>{nota}</td> {/* Nota 2 */}
-                      <td>{nota}</td> {/* Nota 3 */}
-                      <td>{nota}</td> {/* Média */}
-                    </tr>
-                  );
-                });
+                const notas = getNotas(student.name);
+                const media = (notas.reduce((acc, nota) => acc + nota, 0) / notas.length).toFixed(2);
+                return (
+                  <tr key={student.id}>
+                    <td className="text-center align-middle">{student.name}</td>
+                    <td className="text-center align-middle">{prof}</td>
+                    <td>{notas[0]}</td>
+                    <td>{notas[1]}</td>
+                    <td>{notas[2]}</td>
+                    <td>{media}</td>
+                  </tr>
+                );
               })}
             </tbody>
           </table>
         </div>
 
-        {/* Gráfico de Desempenho */}
         <div className="my-4">
           <h4 className="text-center mb-3">Desempenho dos Alunos</h4>
           <div className="chart-container">
@@ -128,7 +126,7 @@ const Filosofia = () => {
                     position: 'top',
                   },
                 },
-                maintainAspectRatio: false, // Para permitir que o gráfico se ajuste de acordo com o tamanho do contêiner
+                maintainAspectRatio: false,
               }}
             />
           </div>
@@ -139,12 +137,12 @@ const Filosofia = () => {
         .chart-container {
           position: relative;
           width: 100%;
-          height: 300px; /* Ajuste a altura conforme necessário */
+          height: 300px;
         }
 
         @media (max-width: 768px) {
           .chart-container {
-            height: 250px; /* Menor altura em telas pequenas */
+            height: 250px;
           }
         }
       `}</style>
@@ -152,4 +150,4 @@ const Filosofia = () => {
   );
 };
 
-export default Filosofia;
+export default Biologia;

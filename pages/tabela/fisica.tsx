@@ -10,63 +10,67 @@ const data = {
   datasets: [
     {
       label: 'Tais Rocha',
-      data: [],
+      data: [8],
       borderColor: 'rgb(255, 99, 132)',
       tension: 0.1,
     },
     {
       label: 'Ana Beatriz',
-      data: [],
+      data: [5.5],
       borderColor: 'rgb(54, 162, 235)',
       tension: 0.1,
     },
     {
       label: 'Mariana de Moura',
-      data: [],
+      data: [5.5],
       borderColor: 'rgb(75, 192, 192)',
       tension: 0.1,
     },
     {
       label: 'Pedro Brito',
-      data: [],
+      data: [7.75],
       borderColor: 'rgb(153, 102, 255)',
       tension: 0.1,
     },
     {
       label: 'Maria Nunes',
-      data: [],
+      data: [2.5],
       borderColor: 'rgb(255, 159, 64)',
       tension: 0.1,
     },
   ],
 };
-
+const prof = "Gabriel Gedolin";
 const Fisica = () => {
   const students = [
-    { name: 'Tais Rocha', teachers: ['Taís','-'] },
-    { name: 'Ana Beatriz', teachers: ['Taís', '-'] },
-    { name: 'Mariana de Moura', teachers: ['Taís', '-'] },
-    { name: 'Pedro Brito', teachers: ['Taís', '-'] },
-    { name: 'Maria Nunes', teachers: ['Taís', '-'] },
-    { name: 'Gabriel Gedolin', teachers: ['Taís', '-'] },
+    { name: 'Tais Rocha', teachers: [prof], id: "1" },
+    { name: 'Ana Beatriz', teachers: [prof], id: "2" },
+    { name: 'Mariana de Moura', teachers: [prof], id: "3" },
+    { name: 'Pedro Brito', teachers: [prof], id: "4" },
+    { name: 'Maria Nunes', teachers: [prof], id: "5" },
+    { name: 'Gabriel Gedolin', teachers: [prof], id: "6" },
   ];
 
-  // Função que atribui nota com base no nome do professor e aluno
-  const getNota = (teachers, studentName) => {
-    if (teachers.includes(studentName)) {
-      return 10; // Se o professor for o aluno, atribui 10
+  // Função que retorna as notas do aluno
+  const getNotas = (studentName) => {
+    // Encontra o índice do aluno na lista de students
+    const studentIndex = students.findIndex((student) => student.name === studentName); 
+    if (studentIndex !== -1 && studentIndex < data.datasets.length) {
+      return data.datasets[studentIndex].data; // Retorna as notas do aluno correspondente
     }
-    return '-'; // Se o professor não for o aluno, retorna 0
+    else if (studentName === prof){
+      return [10, 10, 10]
+    }
+    return [0, 0, 0]; // Caso o aluno não seja encontrado ou o índice estiver fora do intervalo, retorna um array de zeros
   };
 
   return (
     <div className="container mt-5">
       <header className="d-flex justify-content-center mb-4">
-      <Link href="/" passHref>
-        <button className="btn btn-outline-primary">Voltar para o Boletim</button>
-      </Link>
-    </header>
-
+        <Link href="/" passHref>
+          <button className="btn btn-outline-primary">Voltar para o Boletim</button>
+        </Link>
+      </header>
 
       <section className="content">
         <h2 className="text-center mb-4">Tabela de Notas de Fisica</h2>
@@ -85,21 +89,18 @@ const Fisica = () => {
             </thead>
             <tbody>
               {students.map((student) => {
-                return student.teachers.map((teacher, index) => {
-                  const nota = getNota(student.teachers, student.name); // Verifica se o professor é o aluno
-                  return (
-                    <tr key={`${student.name}-${teacher}`}>
-                      {index === 0 && (
-                        <td className='text-center align-middle' rowSpan={student.teachers.length}>{student.name}</td>
-                      )}
-                      <td className='text-center align-middle'>{teacher}</td>
-                      <td>{nota}</td> {/* Nota 1 */}
-                      <td>{nota}</td> {/* Nota 2 */}
-                      <td>{nota}</td> {/* Nota 3 */}
-                      <td>{nota}</td> {/* Média */}
-                    </tr>
-                  );
-                });
+                const notas = getNotas(student.name); // Pega as notas do aluno
+                const media = (notas.reduce((acc, nota) => acc + nota, 0) / notas.length).toFixed(2); // Calcula a média
+                return (
+                  <tr key={student.id}>
+                    <td className="text-center align-middle">{student.name}</td>
+                    <td className="text-center align-middle">{prof}</td>
+                    <td>{notas[0]}</td> {/* Nota 1 */}
+                    <td>{notas[1]}</td> {/* Nota 2 */}
+                    <td>{notas[2]}</td> {/* Nota 3 */}
+                    <td>{media}</td> {/* Média */}
+                  </tr>
+                );
               })}
             </tbody>
           </table>
