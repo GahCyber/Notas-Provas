@@ -6,7 +6,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, LineElement, PointElement
 ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend);
 
 const data = {
-  labels: ['Matéria 1', 'Matéria 2', 'Matéria 3', 'Matéria 4'], // Matérias ou datas
+  labels: ['Matéria 1', 'Matéria 2', 'Matéria 3', 'Matéria 4'],
   datasets: [
     {
       label: 'Tais Rocha',
@@ -41,81 +41,109 @@ const data = {
   ],
 };
 
-const options = {
-  responsive: true,
-  plugins: {
-    title: {
-      display: true,
-      text: 'Desempenho dos Alunos',
-    },
-    legend: {
-      position: 'top',
-    },
-  },
-};
+const Portugues = () => {
+  const students = [
+    { name: 'Tais Rocha', teachers: ['Taís','-'] },
+    { name: 'Ana Beatriz', teachers: ['Taís', '-'] },
+    { name: 'Mariana de Moura', teachers: ['Taís', '-'] },
+    { name: 'Pedro Brito', teachers: ['Taís', '-'] },
+    { name: 'Maria Nunes', teachers: ['Taís', '-'] },
+    { name: 'Gabriel Gedolin', teachers: ['Taís', '-'] },
+  ];
 
-const Biologia = () => {
+  // Função que atribui nota com base no nome do professor e aluno
+  const getNota = (teachers, studentName) => {
+    if (teachers.includes(studentName)) {
+      return 10; // Se o professor for o aluno, atribui 10
+    }
+    return '-'; // Se o professor não for o aluno, retorna 0
+  };
+
   return (
-    <div className="tabela">
-      <header className="header">
-        <Link href="/">
-          <span className="back-link">Voltar para o Boletim</span>
-        </Link>
-      </header>
+    <div className="container mt-5">
+      <header className="d-flex justify-content-center mb-4">
+      <Link href="/" passHref>
+        <button className="btn btn-outline-primary">Voltar para o Boletim</button>
+      </Link>
+    </header>
+
 
       <section className="content">
-        <h2>Tabela de Notas de Portugues</h2>
-        <table className="nota-table">
-          <thead>
-            <tr>
-              <th>Nome do Aluno</th>
-              <th>Nota 1</th>
-              <th>Nota 2</th>
-              <th>Nota 3</th>
-              <th>Média</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Tais Rocha</td>
-              
-            </tr>
-            <tr>
-              <td>Ana Beatriz</td>
-              
-            </tr>
-            <tr>
-              <td>Mariana de Moura</td>
-              
-            </tr>
-            <tr>
-              <td>Pedro Brito</td>
-              
-            </tr>
-            <tr>
-              <td>Maria Nunes</td>
-              
-            </tr>
-          </tbody>
-        </table>
+        <h2 className="text-center mb-4">Tabela de Notas de Portugues</h2>
 
-        {/* Adicionando o gráfico de desempenho */}
-        <Line data={data} options={{
-          responsive: true,
-          plugins: {
-            title: {
-              display: true,
-              text: 'Desempenho dos Alunos',
-            },
-            legend: {
-              position: 'top',
-            },
-          },
-        }} />
+        <div className="table-responsive">
+          <table className="table table-striped table-bordered table-hover">
+            <thead className="table-dark">
+              <tr>
+                <th>Nome do Aluno</th>
+                <th>Nome do Professor</th>
+                <th>Nota 1</th>
+                <th>Nota 2</th>
+                <th>Nota 3</th>
+                <th>Média</th>
+              </tr>
+            </thead>
+            <tbody>
+              {students.map((student) => {
+                return student.teachers.map((teacher, index) => {
+                  const nota = getNota(student.teachers, student.name); // Verifica se o professor é o aluno
+                  return (
+                    <tr key={`${student.name}-${teacher}`}>
+                      {index === 0 && (
+                        <td className='text-center align-middle' rowSpan={student.teachers.length}>{student.name}</td>
+                      )}
+                      <td className='text-center align-middle'>{teacher}</td>
+                      <td>{nota}</td> {/* Nota 1 */}
+                      <td>{nota}</td> {/* Nota 2 */}
+                      <td>{nota}</td> {/* Nota 3 */}
+                      <td>{nota}</td> {/* Média */}
+                    </tr>
+                  );
+                });
+              })}
+            </tbody>
+          </table>
+        </div>
 
+        {/* Gráfico de Desempenho */}
+        <div className="my-4">
+          <h4 className="text-center mb-3">Desempenho dos Alunos</h4>
+          <div className="chart-container">
+            <Line
+              data={data}
+              options={{
+                responsive: true,
+                plugins: {
+                  title: {
+                    display: true,
+                    text: 'Desempenho dos Alunos',
+                  },
+                  legend: {
+                    position: 'top',
+                  },
+                },
+                maintainAspectRatio: false, // Para permitir que o gráfico se ajuste de acordo com o tamanho do contêiner
+              }}
+            />
+          </div>
+        </div>
       </section>
+
+      <style jsx>{`
+        .chart-container {
+          position: relative;
+          width: 100%;
+          height: 300px; /* Ajuste a altura conforme necessário */
+        }
+
+        @media (max-width: 768px) {
+          .chart-container {
+            height: 250px; /* Menor altura em telas pequenas */
+          }
+        }
+      `}</style>
     </div>
   );
 };
 
-export default Biologia;
+export default Portugues;

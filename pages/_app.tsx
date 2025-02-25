@@ -1,15 +1,15 @@
 import type { AppProps } from 'next/app';
-import '../styles/global.scss';
-import "../styles/tabelas.scss"
-import React from 'react';  
+import Head from 'next/head';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <div className="layout">
-      <main className="main-content">
-        <Component {...pageProps} />
-      </main>
-      
-    </div>
+    <>
+      <Head>
+        <title>Boletim Escolar</title>
+      </Head>
+      <Component {...pageProps} />
+    </>
   );
 }
 
