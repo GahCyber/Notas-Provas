@@ -9,33 +9,39 @@ const data = {
   labels: ['Matéria 1', 'Matéria 2', 'Matéria 3', 'Matéria 4'],
   datasets: [
     {
-      label: 'Tais Rocha',
+      label: 'Taís Rocha',
       data: [],
       borderColor: 'rgb(255, 99, 132)',
       tension: 0.1,
     },
     {
       label: 'Ana Beatriz',
-      data: [],
+      data: [10, ],
       borderColor: 'rgb(54, 162, 235)',
       tension: 0.1,
     },
     {
       label: 'Mariana de Moura',
-      data: [],
+      data: [8.5, ],
       borderColor: 'rgb(75, 192, 192)',
       tension: 0.1,
     },
     {
       label: 'Pedro Brito',
-      data: [],
+      data: [0, ],
       borderColor: 'rgb(153, 102, 255)',
       tension: 0.1,
     },
     {
       label: 'Maria Nunes',
-      data: [],
+      data: [0,],
       borderColor: 'rgb(255, 159, 64)',
+      tension: 0.1,
+    },
+    {
+      label: 'Gabriel Gedolin',
+      data: [8,],
+      borderColor: 'rgb(255, 0, 0)',
       tension: 0.1,
     },
   ],
@@ -43,12 +49,12 @@ const data = {
 
 const Filosofia = () => {
   const students = [
-    { name: 'Tais Rocha', teachers: ['Taís','-'] },
-    { name: 'Ana Beatriz', teachers: ['Taís', '-'] },
-    { name: 'Mariana de Moura', teachers: ['Taís', '-'] },
-    { name: 'Pedro Brito', teachers: ['Taís', '-'] },
-    { name: 'Maria Nunes', teachers: ['Taís', '-'] },
-    { name: 'Gabriel Gedolin', teachers: ['Taís', '-'] },
+    { name: 'Tais Rocha', teachers: ['Taís Rocha',] },
+    { name: 'Ana Beatriz', teachers: ['Taís Rocha',] },
+    { name: 'Mariana de Moura', teachers: ['Taís Rocha',] },
+    { name: 'Pedro Brito', teachers: ['Taís Rocha',] },
+    { name: 'Maria Nunes', teachers: ['Taís Rocha', ] },
+    { name: 'Gabriel Gedolin', teachers: ['Taís Rocha',] },
   ];
 
   // Função que atribui nota com base no nome do professor e aluno
